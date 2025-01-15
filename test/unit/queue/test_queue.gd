@@ -1,7 +1,7 @@
 
 extends GutTest
 
-var Queue: GDScript = preload("res://addons/godata/queue/queue.gd")
+var Queue: GDScript = preload("res://addons/godata/linear/queue/queue.gd")
 
 var queue: GDQueue
 
