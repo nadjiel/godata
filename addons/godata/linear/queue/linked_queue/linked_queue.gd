@@ -77,6 +77,9 @@ func has_all(elements: GDIterable) -> bool:
 	
 	while i.has_next():
 		found = found and has(i.next())
+		
+		if not found:
+			break
 	
 	return found
 
