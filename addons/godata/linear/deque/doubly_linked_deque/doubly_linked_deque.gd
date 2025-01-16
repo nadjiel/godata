@@ -66,6 +66,40 @@ func add_front(element: Variant) -> bool:
 func add_back(element: Variant) -> bool:
 	return add(element)
 
+func get_element() -> Variant:
+	if front == null:
+		return null
+	
+	return front.value
+
+func get_front() -> Variant:
+	return get_element()
+
+func get_back() -> Variant:
+	if back == null:
+		return null
+	
+	return back.value
+
+func update(element: Variant) -> bool:
+	if is_empty():
+		return false
+	
+	front.value = element
+	
+	return true
+
+func update_front(element: Variant) -> bool:
+	return update(element)
+
+func update_back(element: Variant) -> bool:
+	if back == null:
+		return false
+	
+	back.value = element
+	
+	return true
+
 func remove() -> Variant:
 	if is_empty():
 		push_error("Tried removing from empty Deque")
@@ -106,18 +140,3 @@ func remove_back() -> Variant:
 		front = null
 	
 	return old_node.value
-
-func get_element() -> Variant:
-	if front == null:
-		return null
-	
-	return front.value
-
-func get_front() -> Variant:
-	return get_element()
-
-func get_back() -> Variant:
-	if back == null:
-		return null
-	
-	return back.value
