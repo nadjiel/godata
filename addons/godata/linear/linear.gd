@@ -4,6 +4,8 @@ extends GDCollection
 
 static func from_array(array: Array) -> GDLinear: return null
 
+func get_element() -> Variant: return null
+
 func equals(other: GDCollection) -> bool:
 	if not other is GDLinear:
 		return false
