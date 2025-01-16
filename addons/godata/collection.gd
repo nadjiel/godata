@@ -2,6 +2,16 @@
 class_name GDCollection
 extends GDIterable
 
+signal emptied()
+
+signal filled()
+
+signal added(element: Variant)
+
+signal updated(old_element: Variant, new_element: Variant)
+
+signal removed(element: Variant)
+
 func length() -> int: return 0
 
 func is_empty() -> bool: return false
