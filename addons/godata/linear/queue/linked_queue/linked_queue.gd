@@ -6,6 +6,14 @@ var back: GDLinkedNode = null
 
 var front: GDLinkedNode = null
 
+static func from_array(array: Array) -> GDLinear:
+	var queue: GDQueue = GDLinkedQueue.new()
+	
+	for element: Variant in array:
+		queue.add(element)
+	
+	return queue
+
 func iterator() -> GDIterator:
 	return GDLinkedQueueIterator.create(self)
 
