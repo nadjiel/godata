@@ -54,9 +54,14 @@ func is_full() -> bool:
 func add(element: Variant) -> bool:
 	var new_node := GDDoublyLinkedNode.create(element)
 	
+	added.emit(element)
+	added_back.emit(element)
+	
 	if is_empty():
 		front = new_node
 		back = front
+		
+		added_front.emit(element)
 	else:
 		back.next = new_node
 		new_node.previous = back
@@ -68,9 +73,14 @@ func add(element: Variant) -> bool:
 func add_front(element: Variant) -> bool:
 	var new_node := GDDoublyLinkedNode.create(element)
 	
+	added.emit(element)
+	added_front.emit(element)
+	
 	if is_empty():
 		front = new_node
 		back = front
+		
+		added_back.emit(element)
 	else:
 		front.previous = new_node
 		new_node.next = front
@@ -101,7 +111,15 @@ func update(element: Variant) -> bool:
 	if is_empty():
 		return false
 	
+	var old_element: Variant = front.value
+	
 	front.value = element
+	
+	updated.emit(old_element, element)
+	updated_front.emit(old_element, element)
+	
+	if front == back:
+		updated_back.emit(old_element, element)
 	
 	return true
 
@@ -112,7 +130,15 @@ func update_back(element: Variant) -> bool:
 	if back == null:
 		return false
 	
+	var old_element: Variant = back.value
+	
 	back.value = element
+	
+	updated.emit(old_element, element)
+	updated_back.emit(old_element, element)
+	
+	if back == front:
+		updated_front.emit(old_element, element)
 	
 	return true
 
@@ -130,8 +156,16 @@ func remove() -> Variant:
 	
 	old_node.next = null
 	
+	removed.emit(old_node.value)
+	removed_front.emit(old_node.value)
+	
+	if old_node == back:
+		removed_back.emit(old_node.value)
+	
 	if is_empty():
 		back = null
+		
+		emptied.emit()
 	
 	return old_node.value
 
@@ -152,7 +186,15 @@ func remove_back() -> Variant:
 	
 	old_node.previous = null
 	
+	removed.emit(old_node.value)
+	removed_back.emit(old_node.value)
+	
+	if old_node == front:
+		removed_front.emit(old_node.value)
+	
 	if is_empty():
 		front = null
+		
+		emptied.emit()
 	
 	return old_node.value
