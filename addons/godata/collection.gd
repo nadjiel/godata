@@ -10,6 +10,10 @@ func is_full() -> bool: return false
 
 func add(element: Variant) -> bool: return false
 
+func get_element() -> Variant: return null
+
+func update(element: Variant) -> bool: return false
+
 func remove() -> Variant: return null
 
 func equals(other: GDCollection) -> bool: return false
