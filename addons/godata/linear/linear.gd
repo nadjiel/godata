@@ -21,7 +21,7 @@ func equals(other: GDCollection) -> bool:
 		if this_value != other_value:
 			return false
 	
-	if other.has_next():
+	if other_i.has_next():
 		return false
 	
 	return true
