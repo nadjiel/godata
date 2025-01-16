@@ -2,9 +2,25 @@
 class_name GDLinkedQueue
 extends GDQueue
 
-var back: GDLinkedNode = null
+var back: GDLinkedNode = null:
+	set = set_back,
+	get = get_back
 
-var front: GDLinkedNode = null
+var front: GDLinkedNode = null:
+	set = set_front,
+	get = get_front
+
+func set_back(new_node: GDLinkedNode) -> void:
+	back = new_node
+
+func get_back() -> GDLinkedNode:
+	return back
+
+func set_front(new_node: GDLinkedNode) -> void:
+	front = new_node
+
+func get_front() -> GDLinkedNode:
+	return front
 
 static func from_array(array: Array) -> GDLinear:
 	var queue: GDQueue = GDLinkedQueue.new()
