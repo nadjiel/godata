@@ -84,6 +84,10 @@ func has_all(elements: GDIterable) -> bool:
 	return found
 
 func remove() -> Variant:
+	if is_empty():
+		push_error("Tried removing from empty Queue")
+		return null
+	
 	var old_node: GDLinkedNode = front
 	
 	front = front.next
