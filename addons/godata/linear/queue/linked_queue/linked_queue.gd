@@ -93,6 +93,9 @@ func remove() -> Variant:
 	front = front.next
 	old_node.next = null
 	
+	if is_empty():
+		back = null
+	
 	return old_node.value
 
 func clear() -> bool:

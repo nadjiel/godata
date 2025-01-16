@@ -35,3 +35,6 @@ func remove() -> void:
 	
 	last.next = null
 	queue.front = pointer
+	
+	if queue.is_empty():
+		queue.back = null
