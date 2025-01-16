@@ -2,9 +2,9 @@
 class_name GDDeque
 extends GDLinear
 
-func add_front(element: Variant) -> void: pass
+func add_front(element: Variant) -> bool: return false
 
-func add_back(element: Variant) -> void: pass
+func add_back(element: Variant) -> bool: return false
 
 func get_front() -> Variant: return null
 
