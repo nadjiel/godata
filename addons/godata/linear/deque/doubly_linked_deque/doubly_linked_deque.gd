@@ -2,9 +2,25 @@
 class_name GDDoublyLinkedDeque
 extends GDDeque
 
-var front: GDDoublyLinkedNode = null
+var front: GDDoublyLinkedNode = null:
+	set = set_front,
+	get = get_front
 
-var back: GDDoublyLinkedNode = null
+var back: GDDoublyLinkedNode = null:
+	set = set_back,
+	get = get_back
+
+func set_front(new_node: GDDoublyLinkedNode) -> void:
+	front = new_node
+
+func get_front() -> GDDoublyLinkedNode:
+	return front
+
+func set_back(new_node: GDDoublyLinkedNode) -> void:
+	back = new_node
+
+func get_back() -> GDDoublyLinkedNode:
+	return back
 
 static func from_array(array: Array) -> GDLinear:
 	var deque: GDDeque = GDDoublyLinkedDeque.new()
