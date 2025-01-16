@@ -109,3 +109,9 @@ func clear() -> bool:
 		i.remove()
 	
 	return true
+
+func get_element() -> Variant:
+	if front == null:
+		return null
+	
+	return front.value
