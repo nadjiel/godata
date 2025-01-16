@@ -53,6 +53,13 @@ func next() -> Variant:
 func remove() -> void:
 	var prelast: GDDoublyLinkedNode = last.previous
 	
+	deque.removed.emit(last.value)
+	
+	if last == deque.front:
+		deque.removed_front.emit(last.value)
+	if last == deque.back:
+		deque.removed_back.emit(last.value)
+	
 	if prelast != null:
 		prelast.next = pointer
 	else:
@@ -63,5 +70,7 @@ func remove() -> void:
 	
 	if deque.is_empty():
 		deque.back = null
+		
+		deque.emptied.emit()
 	else:
 		pointer.previous = prelast
