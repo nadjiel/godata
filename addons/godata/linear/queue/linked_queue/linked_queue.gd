@@ -64,6 +64,9 @@ func has(element: Variant) -> bool:
 	
 	while i.has_next():
 		found = found or (i.next() == element)
+		
+		if found:
+			break
 	
 	return found
 
