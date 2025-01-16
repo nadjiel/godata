@@ -38,8 +38,12 @@ func is_full() -> bool:
 func add(element: Variant) -> bool:
 	var new_node := GDLinkedNode.create(element)
 	
-	back.next = new_node
-	back = new_node
+	if is_empty():
+		front = new_node
+		back = front
+	else:
+		back.next = new_node
+		back = new_node
 	
 	return true
 
