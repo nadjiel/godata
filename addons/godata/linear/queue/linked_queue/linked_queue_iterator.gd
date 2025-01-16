@@ -34,5 +34,4 @@ func remove() -> void:
 		prelast.next = last.next
 	
 	last.next = null
-	last.free()
 	queue.front = pointer
