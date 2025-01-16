@@ -76,4 +76,6 @@ func clear() -> bool:
 		i.next()
 		i.remove()
 	
+	emptied.emit()
+	
 	return true
