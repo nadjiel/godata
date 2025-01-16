@@ -6,9 +6,9 @@ func add_front(element: Variant) -> bool: return false
 
 func add_back(element: Variant) -> bool: return false
 
-func get_front() -> Variant: return null
+func get_element_front() -> Variant: return null
 
-func get_back() -> Variant: return null
+func get_element_back() -> Variant: return null
 
 func update_front(element: Variant) -> bool: return false
 

@@ -72,10 +72,10 @@ func get_element() -> Variant:
 	
 	return front.value
 
-func get_front() -> Variant:
+func get_element_front() -> Variant:
 	return get_element()
 
-func get_back() -> Variant:
+func get_element_back() -> Variant:
 	if back == null:
 		return null
 	
