@@ -2,6 +2,18 @@
 class_name GDDeque
 extends GDLinear
 
+signal added_front(element: Variant)
+
+signal added_back(element: Variant)
+
+signal updated_front(old_element: Variant, new_element: Variant)
+
+signal updated_back(old_element: Variant, new_element: Variant)
+
+signal removed_front(element: Variant)
+
+signal removed_back(element: Variant)
+
 func add_front(element: Variant) -> bool: return false
 
 func add_back(element: Variant) -> bool: return false
