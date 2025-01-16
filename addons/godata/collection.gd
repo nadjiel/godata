@@ -6,6 +6,8 @@ func length() -> int: return 0
 
 func is_empty() -> bool: return false
 
+func is_full() -> bool: return false
+
 func add(element: Variant) -> bool: return false
 
 func add_all(elements: GDIterable) -> bool: return false
@@ -14,11 +16,7 @@ func has(element: Variant) -> bool: return false
 
 func has_all(elements: GDIterable) -> bool: return false
 
-func remove(element: Variant) -> bool: return false
-
-func remove_all(elements: GDIterable) -> bool: return false
-
-func remove_if(predicate: Callable) -> bool: return false
+func remove() -> Variant: return null
 
 func clear() -> bool: return false
 
