@@ -58,15 +58,22 @@ func test_add_returns_true_on_success() -> void:
 func test_add_saves_value() -> void:
 	queue.add(1)
 	
-	assert_eq(queue.as_array().back(), 1, "Queue didn't save added value")
+	assert_eq(queue.get_element(), 1, "Queue didn't save added value")
 
-func test_add_saves_values_to_end() -> void:
+func test_add_saves_value_after_emptied() -> void:
+	queue.add(1)
+	queue.remove()
+	queue.add(2)
+	
+	assert_eq(queue.get_element(), 2, "Queue didn't save added value")
+
+func test_add_saves_values_to_back() -> void:
 	queue.add(1)
 	queue.add(2)
 	
 	assert_eq(
 		queue.as_array(),
-		[ 2, 1 ],
+		[ 1, 2 ],
 		"Queue didn't save values at right spot"
 	)
 
@@ -83,9 +90,8 @@ func test_add_all_returns_true_on_success() -> void:
 func test_add_all_saves_values_in_right_order() -> void:
 	queue.add_all(Queue.from_array([ 1, 2 ]))
 	
-	assert_eq(
-		queue.as_array(),
-		[ 2, 1 ],
+	assert_true(
+		queue.equals(Queue.from_array([ 1, 2 ])),
 		"Queue didn't save values at right order"
 	)
 
@@ -126,6 +132,9 @@ func test_has_all_returns_true_with_present_values() -> void:
 
 #region Method remove
 
+func test_remove_returns_null_on_empty_queue() -> void:
+	assert_null(queue.remove(), "Remove didn't return null")
+
 func test_remove_returns_resultant_value() -> void:
 	queue.add(1)
 	
@@ -133,6 +142,8 @@ func test_remove_returns_resultant_value() -> void:
 
 func test_remove_takes_value_away() -> void:
 	queue.add(1)
+	
+	queue.remove()
 	
 	assert_true(queue.is_empty(), "Remove didn't take value away")
 
@@ -187,7 +198,7 @@ func test_equals_returns_true_with_equivalent_queue() -> void:
 	queue.add(2)
 	
 	assert_true(
-		queue.equals(GDQueue.from_array([ 1, 2 ])),
+		queue.equals(Queue.from_array([ 1, 2 ])),
 		"Equivalent queues didn't match"
 	)
 
