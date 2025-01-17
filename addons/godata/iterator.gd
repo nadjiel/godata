@@ -5,7 +5,8 @@
 ## This class is meant to be overwritten in a subclass that defines exactly
 ## how the iteration of a [GDIterable] should occurr.
 ## [br][br]
-## [b]Author: nadjiel (https://github.com/nadjiel)[/b]
+## [b]Author: nadjiel (https://github.com/nadjiel)[/b][br]
+## Version: 1.0.0
 class_name GDIterator
 extends Resource
 
