@@ -12,7 +12,8 @@
 ## management features and also to allow users to easily store the
 ## data structures they create with this library.
 ## [br][br]
-## [b]Author: nadjiel (https://github.com/nadjiel)[/b]
+## [b]Author: nadjiel (https://github.com/nadjiel)[/b][br]
+## [i]Version: 1.0.0[/i]
 class_name GDIterable
 extends Resource
 
