@@ -155,6 +155,10 @@ func has(element: Variant) -> bool:
 	var found: bool = false
 	
 	var i: GDIterator = iterator()
+
+	if i == null:
+		push_error("Tried to iterate Collection without Iterator")
+		return false
 	
 	while i.has_next():
 		found = found or (i.next() == element)
@@ -178,6 +182,10 @@ func has_all(elements: GDIterable) -> bool:
 	
 	var i: GDIterator = elements.iterator()
 	
+	if i == null:
+		push_error("Tried to iterate Collection without Iterator")
+		return false
+
 	while i.has_next():
 		found = found and has(i.next())
 		
@@ -204,6 +212,10 @@ func clear() -> bool:
 	
 	var i: GDIterator = iterator()
 	
+	if i == null:
+		push_error("Tried to iterate Collection without Iterator")
+		return false
+
 	while i.has_next():
 		i.next()
 		i.remove()
