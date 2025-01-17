@@ -220,6 +220,8 @@ func clear() -> bool:
 		i.next()
 		i.remove()
 	
-	emptied.emit()
+	if is_empty():
+		emptied.emit()
+		return true
 	
-	return true
+	return false
