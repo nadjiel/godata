@@ -16,6 +16,16 @@ extends GDLinkedNode
 ## belongs. [br]
 ## By default, this property is set to [code]null[/code], meaning that
 ## there's no previous node in the sequence.
+var previous: GDDoublyLinkedNode = null:
+	set = set_previous,
+	get = get_previous
+
+func set_previous(new_node: GDDoublyLinkedNode) -> void:
+	previous = new_node
+
+func get_previous() -> GDDoublyLinkedNode:
+	return previous
+
 ## The [method create] method is a static method that helps with the creation
 ## of new [GDDoublyLinkedNode]s by directly accepting a [param value]
 ## for them to store.
