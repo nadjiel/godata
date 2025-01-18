@@ -1,0 +1,200 @@
+
+class_name GDDoublyLinkedDeque
+extends GDDeque
+
+var front: GDDoublyLinkedNode = null:
+	set = set_front,
+	get = get_front
+
+var back: GDDoublyLinkedNode = null:
+	set = set_back,
+	get = get_back
+
+func set_front(new_node: GDDoublyLinkedNode) -> void:
+	front = new_node
+
+func get_front() -> GDDoublyLinkedNode:
+	return front
+
+func set_back(new_node: GDDoublyLinkedNode) -> void:
+	back = new_node
+
+func get_back() -> GDDoublyLinkedNode:
+	return back
+
+static func from_array(array: Array) -> GDLinear:
+	var deque: GDDeque = GDDoublyLinkedDeque.new()
+	
+	for element: Variant in array:
+		deque.add(element)
+	
+	return deque
+
+func iterator() -> GDIterator:
+	return GDDoublyLinkedDequeIterator.create(self)
+
+func length() -> int:
+	var counter: int = 0
+	
+	var i: GDIterator = iterator()
+	
+	while i.has_next():
+		counter += 1
+		
+		i.next()
+	
+	return counter
+
+func is_empty() -> bool:
+	return front == null
+
+func is_full() -> bool:
+	return false
+
+func add(element: Variant) -> bool:
+	var new_node := GDDoublyLinkedNode.create(element)
+	
+	added.emit(element)
+	added_back.emit(element)
+	
+	if is_empty():
+		front = new_node
+		back = front
+		
+		added_front.emit(element)
+	else:
+		back.next = new_node
+		new_node.previous = back
+		
+		back = new_node
+	
+	return true
+
+func add_front(element: Variant) -> bool:
+	var new_node := GDDoublyLinkedNode.create(element)
+	
+	added.emit(element)
+	added_front.emit(element)
+	
+	if is_empty():
+		front = new_node
+		back = front
+		
+		added_back.emit(element)
+	else:
+		front.previous = new_node
+		new_node.next = front
+		
+		front = new_node
+	
+	return true
+
+func add_back(element: Variant) -> bool:
+	return add(element)
+
+func get_element() -> Variant:
+	if front == null:
+		return null
+	
+	return front.value
+
+func get_element_front() -> Variant:
+	return get_element()
+
+func get_element_back() -> Variant:
+	if back == null:
+		return null
+	
+	return back.value
+
+func update(element: Variant) -> bool:
+	if is_empty():
+		return false
+	
+	var old_element: Variant = front.value
+	
+	front.value = element
+	
+	updated.emit(old_element, element)
+	updated_front.emit(old_element, element)
+	
+	if front == back:
+		updated_back.emit(old_element, element)
+	
+	return true
+
+func update_front(element: Variant) -> bool:
+	return update(element)
+
+func update_back(element: Variant) -> bool:
+	if back == null:
+		return false
+	
+	var old_element: Variant = back.value
+	
+	back.value = element
+	
+	updated.emit(old_element, element)
+	updated_back.emit(old_element, element)
+	
+	if back == front:
+		updated_front.emit(old_element, element)
+	
+	return true
+
+func remove() -> Variant:
+	if is_empty():
+		push_error("Tried removing from empty Deque")
+		return null
+	
+	var old_node: GDDoublyLinkedNode = front
+	
+	front = front.next
+	
+	if front != null:
+		front.previous = null
+	
+	old_node.next = null
+	
+	removed.emit(old_node.value)
+	removed_front.emit(old_node.value)
+	
+	if old_node == back:
+		removed_back.emit(old_node.value)
+	
+	if is_empty():
+		back = null
+		
+		emptied.emit()
+	
+	return old_node.value
+
+func remove_front() -> Variant:
+	return remove()
+
+func remove_back() -> Variant:
+	if is_empty():
+		push_error("Tried removing from empty Deque")
+		return null
+	
+	var old_node: GDDoublyLinkedNode = back
+	
+	back = back.previous
+	
+	if back != null:
+		back.next = null
+	
+	old_node.previous = null
+	
+	removed.emit(old_node.value)
+	removed_back.emit(old_node.value)
+	
+	if old_node == front:
+		removed_front.emit(old_node.value)
+	
+	if is_empty():
+		front = null
+		
+		emptied.emit()
+	
+	return old_node.value
