@@ -19,8 +19,13 @@ extends Resource
 
 ## The [method iterator] method has its signature defined in the
 ## [GDIterable] class, but should be overwritten by implemented data structures
-## so that it can return a custom [GDIterator] that can iterate over them.
-func iterator() -> GDIterator: return null
+## so that it can return a custom [GDIterator] that can iterate over them. [br]
+## If no implementation is provided to this method, it will push an error by
+## default, when called, warning that an iteration was attempted without
+## a [GDIterator].
+func iterator() -> GDIterator:
+	push_error("Tried iterating without an Iterator")
+	return null
 
 ## The [method for_each] method accepts a [Callable] and calls it for each
 ## element of the data structure that has this method. [br]
