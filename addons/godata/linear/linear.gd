@@ -37,6 +37,10 @@ func equals(other: GDCollection) -> bool:
 	var this_i: GDIterator = iterator()
 	var other_i: GDIterator = other.iterator()
 	
+	if this_i == null or other_i == null:
+		push_no_iterator_error()
+		return false
+
 	while this_i.has_next():
 		if not other_i.has_next():
 			return false
@@ -64,6 +68,10 @@ func as_array() -> Array:
 	var result: Array = []
 	
 	var i: GDIterator = iterator()
+	
+	if i == null:
+		push_no_iterator_error()
+		return result
 	
 	while i.has_next():
 		result.push_back(i.next())
