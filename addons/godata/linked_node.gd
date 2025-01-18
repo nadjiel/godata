@@ -21,6 +21,7 @@ var value: Variant:
 ## [GDLinkedNode] in the sequence to which this [GDLinkedNode] belongs. [br]
 ## By default, this property is set to [code]null[/code], meaning that
 ## there's no next node in the sequence.
+var next: GDLinkedNode = null:
 	set = set_next,
 	get = get_next
 
