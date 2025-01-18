@@ -137,7 +137,9 @@ func add_all(elements: GDIterable) -> bool:
 	var added_all: bool = true
 	
 	while i.has_next():
-		added_all = added_all and add(i.next())
+		var added: bool = add(i.next())
+		
+		added_all = added_all and added
 	
 	return added_all
 
