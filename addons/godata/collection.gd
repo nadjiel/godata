@@ -124,6 +124,11 @@ func equals(other: GDCollection) -> bool: return false
 ## of recovering a version of this [GDCollection] converted into an [Array].
 func as_array() -> Array: return []
 
+## The [method push_no_iterator_error] method pushes an error warning that
+## an iteration attempt was tried on a [GDCollection] without an [GDIterator].
+func push_no_iterator_error() -> void:
+	push_error("Tried to iterate Collection without Iterator")
+
 ## The [method add_all] method receives a [GDIterator] through which it
 ## runs over while adding each one of its elements, using the [method add]
 ## method, in this [GDCollection]. [br]
@@ -157,7 +162,7 @@ func has(element: Variant) -> bool:
 	var i: GDIterator = iterator()
 
 	if i == null:
-		push_error("Tried to iterate Collection without Iterator")
+		push_no_iterator_error()
 		return false
 	
 	while i.has_next():
@@ -183,7 +188,7 @@ func has_all(elements: GDIterable) -> bool:
 	var i: GDIterator = elements.iterator()
 	
 	if i == null:
-		push_error("Tried to iterate Collection without Iterator")
+		push_no_iterator_error()
 		return false
 
 	while i.has_next():
@@ -213,7 +218,7 @@ func clear() -> bool:
 	var i: GDIterator = iterator()
 	
 	if i == null:
-		push_error("Tried to iterate Collection without Iterator")
+		push_no_iterator_error()
 		return false
 
 	while i.has_next():
