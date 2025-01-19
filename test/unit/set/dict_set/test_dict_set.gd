@@ -304,3 +304,405 @@ func test_clear_empties_set() -> void:
 	assert_true(gdset.is_empty(), "Clear didn't empty gdset")
 
 #endregion
+
+#region Method from_array
+
+func test_from_array_returns_corresponding_set() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	assert_eq(
+		gdset.as_array(),
+		[ 1, 2, 3 ],
+		"From array didn't convert properly"
+	)
+
+func test_from_array_doesnt_save_repeated_values() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 1 ])
+	
+	assert_eq(
+		gdset.as_array(),
+		[ 1, 2 ],
+		"From array saved repeated values"
+	)
+
+#endregion
+
+#region Method set_element
+
+func test_set_element_saves_value() -> void:
+	gdset.set_element(1)
+	
+	assert_eq(gdset.get_element(), 1, "Set_element didn't save value")
+
+func test_set_element_saves_value_after_emptied() -> void:
+	gdset.set_element(1)
+	gdset.remove()
+	gdset.set_element(2)
+	
+	assert_eq(gdset.get_element(), 2, "Set_element didn't save value")
+
+func test_set_element_doesnt_save_repeated_values() -> void:
+	gdset.set_element(1)
+	gdset.set_element(1)
+	
+	assert_eq(gdset.as_array(), [ 1 ], "Set_element saved repeated values")
+
+#endregion
+
+#region Method remove_element
+
+func test_remove_element_returns_false_on_empty_set() -> void:
+	assert_false(gdset.remove_element(1), "Remove_element didn't return false")
+
+func test_remove_element_returns_true_on_success() -> void:
+	gdset.add(1)
+	
+	assert_true(gdset.remove_element(1), "Remove_element didn't return true")
+
+func test_remove_element_takes_value_away() -> void:
+	gdset.add(1)
+	
+	gdset.remove_element(1)
+	
+	assert_true(gdset.is_empty(), "Remove_element didn't take value away")
+
+func test_remove_takes_away_expected_value() -> void:
+	gdset.add(1)
+	gdset.add(2)
+	
+	gdset.remove_element(2)
+	
+	assert_eq(
+		gdset.as_array(),
+		[ 1 ],
+		"Remove_element didn't take right value away"
+	)
+
+#endregion
+
+#region Method is_subset
+
+func test_is_subset_returns_false_for_supersets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_false(
+		gdset.is_subset(gdset2),
+		"Is_subset returned true for superset"
+	)
+
+func test_is_subset_returns_true_for_subsets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_true(
+		gdset2.is_subset(gdset),
+		"Is_subset returned false for subset"
+	)
+
+func test_is_subset_returns_true_for_equal_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	assert_true(
+		gdset2.is_subset(gdset),
+		"Is_subset returned false for equal sets"
+	)
+
+func test_is_subset_returns_false_for_disjoint_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5, 6 ])
+	
+	assert_false(
+		gdset2.is_subset(gdset),
+		"Is_subset returned true for disjoint sets"
+	)
+
+#endregion
+
+#region Method is_superset
+
+func test_is_superset_returns_true_for_supersets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_true(
+		gdset.is_superset(gdset2),
+		"Is_superset returned false"
+	)
+
+func test_is_superset_returns_false_for_subsets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_false(
+		gdset2.is_superset(gdset),
+		"Is_superset returned true"
+	)
+
+func test_is_superset_returns_true_for_equal_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	assert_true(
+		gdset2.is_superset(gdset),
+		"Is_superset returned false"
+	)
+
+func test_is_superset_returns_false_for_disjoint_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5, 6 ])
+	
+	assert_false(
+		gdset2.is_superset(gdset),
+		"Is_superset returned true"
+	)
+
+#endregion
+
+#region Method is_disjoint
+
+func test_is_disjoint_returns_false_for_supersets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_false(
+		gdset.is_disjoint(gdset2),
+		"Is_disjoint returned true"
+	)
+
+func test_is_disjoint_returns_false_for_subsets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2 ])
+	
+	assert_false(
+		gdset2.is_disjoint(gdset),
+		"Is_disjoint returned true"
+	)
+
+func test_is_disjoint_returns_false_for_equal_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	assert_false(
+		gdset2.is_disjoint(gdset),
+		"Is_disjoint returned true"
+	)
+
+func test_is_disjoint_returns_true_for_disjoint_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5, 6 ])
+	
+	assert_true(
+		gdset2.is_disjoint(gdset),
+		"Is_disjoint returned false"
+	)
+
+#endregion
+
+#region Method union
+
+func test_union_adds_two_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5 ])
+	
+	var union: GDSet = gdset.union(gdset2)
+	
+	assert_true(
+		union.equals(GDDictSet.from_array([ 1, 2, 3, 4, 5 ])),
+		"Union set didn't include all elements"
+	)
+
+func test_union_of_equal_sets_same_as_any_of_them() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	var union: GDSet = gdset.union(gdset2)
+	
+	assert_true(
+		union.equals(gdset) and union.equals(gdset2),
+		"Union didn't equal summed sets"
+	)
+
+func test_union_ignores_repeated_values() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var union: GDSet = gdset.union(gdset2)
+	
+	assert_true(
+		union.equals(GDDictSet.from_array([ 1, 2, 3, 4, 5 ])),
+		"Union set included repeated elements"
+	)
+
+func test_union_is_commutative() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var union1: GDSet = gdset.union(gdset2)
+	var union2: GDSet = gdset2.union(gdset)
+	
+	assert_true(
+		union1.equals(union2),
+		"Unions didn't equal"
+	)
+
+func test_union_results_in_new_set() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var union: GDSet = gdset.union(gdset2)
+	
+	assert_true(
+		union != gdset and union != gdset2,
+		"Union isn't a new set object"
+	)
+
+#endregion
+
+#region Method intersection
+
+func test_intersection_cuts_two_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 1 ])
+	
+	var intersection: GDSet = gdset.intersection(gdset2)
+	
+	assert_true(
+		intersection.equals(GDDictSet.from_array([ 1, 2 ])),
+		"Intersection set didn't include only mutual elements"
+	)
+
+func test_intersection_of_disjoint_sets_is_empty() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5 ])
+	
+	var intersection: GDSet = gdset.intersection(gdset2)
+	
+	assert_true(
+		intersection.equals(GDDictSet.new()),
+		"Intersection wasn't empty"
+	)
+
+func test_intersection_ignores_repeated_values() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3 ])
+	
+	var intersection: GDSet = gdset.intersection(gdset2)
+	
+	assert_true(
+		intersection.equals(GDDictSet.from_array([ 1, 3 ])),
+		"Intersection included repeated elements"
+	)
+
+func test_intersection_is_commutative() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var intersection1: GDSet = gdset.intersection(gdset2)
+	var intersection2: GDSet = gdset2.intersection(gdset)
+	
+	assert_true(
+		intersection1.equals(intersection2),
+		"Intersections didn't equal"
+	)
+
+#endregion
+
+#region Method difference
+
+func test_difference_gives_includes_only_elements_from_first_set() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 1 ])
+	
+	var difference: GDSet = gdset.difference(gdset2)
+	
+	assert_true(
+		difference.equals(GDDictSet.from_array([ 3 ])),
+		"Difference didn't include only first set's elements"
+	)
+
+func test_difference_of_equal_sets_is_empty() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	var difference: GDSet = gdset.difference(gdset2)
+	
+	assert_true(
+		difference.equals(GDDictSet.new()),
+		"Difference wasn't empty"
+	)
+
+func test_difference_ignores_repeated_values() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3 ])
+	
+	var difference: GDSet = gdset.difference(gdset2)
+	
+	assert_true(
+		difference.equals(GDDictSet.from_array([ 2 ])),
+		"Difference included repeated elements"
+	)
+
+func test_difference_is_not_commutative() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var difference1: GDSet = gdset.difference(gdset2)
+	var difference2: GDSet = gdset2.difference(gdset)
+	
+	assert_false(
+		difference1.equals(difference2),
+		"Differences were equal"
+	)
+
+#endregion
+
+#region Method symetric_difference
+
+func test_symetric_difference_excludes_intersection() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 1, 4 ])
+	
+	var symetric_difference: GDSet = gdset.symetric_difference(gdset2)
+	
+	assert_true(
+		symetric_difference.equals(GDDictSet.from_array([ 3, 4 ])),
+		"Symetric_difference didn't exclude intersection"
+	)
+
+func test_symetric_difference_of_equal_sets_is_empty() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 2, 3 ])
+	
+	var symetric_difference: GDSet = gdset.symetric_difference(gdset2)
+	
+	assert_true(
+		symetric_difference.equals(GDDictSet.new()),
+		"Symetric_difference wasn't empty"
+	)
+
+func test_symetric_difference_ignores_repeated_values() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4 ])
+	
+	var symetric_difference: GDSet = gdset.symetric_difference(gdset2)
+	
+	assert_true(
+		symetric_difference.equals(GDDictSet.from_array([ 2, 4 ])),
+		"Symetric_difference included repeated elements"
+	)
+
+func test_symetric_difference_is_commutative() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 1, 3, 4, 5 ])
+	
+	var symetric_difference1: GDSet = gdset.symetric_difference(gdset2)
+	var symetric_difference2: GDSet = gdset2.symetric_difference(gdset)
+	
+	assert_true(
+		symetric_difference1.equals(symetric_difference2),
+		"Symetric_differences weren't equal"
+	)
+
+#endregion
