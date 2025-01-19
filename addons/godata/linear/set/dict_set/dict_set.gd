@@ -72,24 +72,27 @@ func equals(other: GDCollection) -> bool:
 	if not other is GDSet:
 		return false
 	
-	var is_superset: bool = true
-	var is_subset: bool = true
+	var contains: bool = true
+	var is_contained: bool = true
 	
 	var this_i: GDIterator = iterator()
 	var other_i: GDIterator = other.iterator()
+	
+	if other_i == null:
+		return false
 	
 	while this_i.has_next():
 		if not other_i.has_next():
 			return false
 		
-		is_superset = is_superset and other.has(this_i.next())
+		contains = contains and other.has(this_i.next())
 		
-		if not is_superset:
+		if not contains:
 			return false
 		
-		is_subset = is_subset and self.has(other_i.next())
+		is_contained = is_contained and self.has(other_i.next())
 		
-		if not is_subset:
+		if not is_contained:
 			return false
 	
 	if other_i.has_next():
@@ -137,12 +140,21 @@ func remove_element(element: Variant) -> bool:
 	return was_removed
 
 func is_subset(other: GDSet) -> bool:
+	if other == null:
+		return false
+	
 	return other.has_all(self)
 
 func is_superset(other: GDSet) -> bool:
+	if other == null:
+		return false
+	
 	return has_all(other)
 
 func is_disjoint(other: GDSet) -> bool:
+	if other == null:
+		return false
+	
 	var found: bool = false
 	
 	var i: GDIterator = iterator()
@@ -156,10 +168,16 @@ func is_disjoint(other: GDSet) -> bool:
 	return true
 
 func union(other: GDSet) -> GDSet:
-	var result: GDSet = GDDictSet.new()
+	if other == null:
+		return null
 	
 	var this_i: GDIterator = iterator()
 	var other_i: GDIterator = other.iterator()
+	
+	if other_i == null:
+		return null
+	
+	var result: GDSet = GDDictSet.new()
 	
 	while this_i.has_next():
 		result.set_element(this_i.next())
@@ -173,6 +191,9 @@ func union(other: GDSet) -> GDSet:
 	return result
 
 func intersection(other: GDSet) -> GDSet:
+	if other == null:
+		return null
+	
 	var result: GDSet = GDDictSet.new()
 	
 	var this_i: GDIterator = iterator()
@@ -186,6 +207,9 @@ func intersection(other: GDSet) -> GDSet:
 	return result
 
 func difference(other: GDSet) -> GDSet:
+	if other == null:
+		return null
+	
 	var result: GDSet = GDDictSet.new()
 	
 	var this_i: GDIterator = iterator()
@@ -199,10 +223,16 @@ func difference(other: GDSet) -> GDSet:
 	return result
 
 func symetric_difference(other: GDSet) -> GDSet:
-	var result: GDSet = GDDictSet.new()
+	if other == null:
+		return null
 	
 	var this_i: GDIterator = iterator()
 	var other_i: GDIterator = other.iterator()
+	
+	if other_i == null:
+		return null
+	
+	var result: GDSet = GDDictSet.new()
 	
 	while this_i.has_next():
 		var this_element: Variant = this_i.next()
