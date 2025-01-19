@@ -2,15 +2,23 @@
 class_name GDDictSet
 extends GDSet
 
-var elements: Dictionary = {}
+var elements: Dictionary = {}:
+	set = set_elements,
+	get = get_elements
+
+func set_elements(new_elements: Dictionary) -> void:
+	elements = new_elements
+
+func get_elements() -> Dictionary:
+	return elements
 
 static func from_array(array: Array) -> GDLinear:
-	var set: GDSet = GDDictSet.new()
+	var new_set: GDSet = GDDictSet.new()
 	
 	for element: Variant in array:
-		set.add(element)
+		new_set.add(element)
 	
-	return set
+	return new_set
 
 func iterator() -> GDIterator:
 	return GDDictSetIterator.create(elements)
