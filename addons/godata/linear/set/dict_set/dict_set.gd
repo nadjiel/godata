@@ -78,6 +78,11 @@ func equals(other: GDCollection) -> bool:
 
 	return true
 
+func copy() -> GDCollection:
+	var result: GDSet = GDDictSet.from_array(elements.keys())
+	
+	return result
+
 func has(element: Variant) -> bool:
 	return elements.has(element)
 
