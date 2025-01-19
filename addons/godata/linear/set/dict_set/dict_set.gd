@@ -20,6 +20,9 @@ static func from_array(array: Array) -> GDLinear:
 	
 	return new_set
 
+func push_empty_set_error() -> void:
+	push_error("Can't take element from empty Set")
+
 func iterator() -> GDIterator:
 	return GDDictSetIterator.create(elements)
 
@@ -38,6 +41,10 @@ func add(element: Variant) -> bool:
 	return true
 
 func get_element() -> Variant:
+	if is_empty():
+		push_empty_set_error()
+		return
+	
 	return elements.keys().pick_random()
 
 func update(element: Variant) -> bool:
@@ -51,6 +58,10 @@ func update(element: Variant) -> bool:
 	return true
 
 func remove() -> Variant:
+	if is_empty():
+		push_empty_set_error()
+		return
+	
 	var random_element: Variant = elements.keys().pick_random()
 	
 	remove_element(random_element)
