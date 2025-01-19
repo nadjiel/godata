@@ -120,6 +120,8 @@ func remove() -> Variant: return null
 ## taking their elements in account, and not their memory addresses.
 func equals(other: GDCollection) -> bool: return false
 
+func copy() -> GDCollection: return null
+
 ## The [method as_array] method should be overwritten for providing a way
 ## of recovering a version of this [GDCollection] converted into an [Array].
 func as_array() -> Array: return []
@@ -137,7 +139,9 @@ func add_all(elements: GDIterable) -> bool:
 	var added_all: bool = true
 	
 	while i.has_next():
-		added_all = added_all and add(i.next())
+		var added: bool = add(i.next())
+		
+		added_all = added_all and added
 	
 	return added_all
 
