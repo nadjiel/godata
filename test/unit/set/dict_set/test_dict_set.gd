@@ -17,6 +17,95 @@ func before_each() -> void:
 func after_all() -> void:
 	queue_free()
 
+#region Signal emptied
+
+func test_emptied_is_not_emitted_on_empty_set_cleared() -> void:
+	watch_signals(gdset)
+	
+	gdset.clear()
+	
+	assert_signal_not_emitted(gdset, "emptied", "Emptied was emitted")
+
+func test_emptied_is_emitted_on_set_cleared() -> void:
+	gdset.set_element(1)
+	
+	watch_signals(gdset)
+	
+	gdset.clear()
+	
+	assert_signal_emitted(gdset, "emptied", "Emptied wasn't emitted")
+
+func test_emptied_is_emitted_on_set_cleared_via_removal() -> void:
+	gdset.set_element(1)
+	
+	watch_signals(gdset)
+	
+	gdset.remove_element(1)
+	
+	assert_signal_emitted(gdset, "emptied", "Emptied wasn't emitted")
+
+#endregion
+
+#region Signal added
+
+func test_added_is_not_emitted_with_repeated_value_addition() -> void:
+	gdset.set_element(1)
+	
+	watch_signals(gdset)
+	
+	gdset.set_element(1)
+	
+	assert_signal_not_emitted(gdset, "added", "Added was emitted")
+
+func test_added_is_emitted_on_value_added() -> void:
+	watch_signals(gdset)
+	
+	gdset.set_element(1)
+	
+	assert_signal_emitted(gdset, "added", "Added wasn't emitted")
+
+#endregion
+
+#region Signal updated
+
+func test_updated_is_emitted_with_repeated_value_addition() -> void:
+	gdset.set_element(1)
+	
+	watch_signals(gdset)
+	
+	gdset.set_element(1)
+	
+	assert_signal_emitted_with_parameters(gdset, "updated", [ 1, 1 ])
+
+func test_updated_is_emitted_on_value_added() -> void:
+	watch_signals(gdset)
+	
+	gdset.set_element(1)
+	
+	assert_signal_emitted(gdset, "updated", [ null, 1 ])
+
+#endregion
+
+#region Signal added
+
+func test_removed_is_not_emitted_with_absent_value_deletion() -> void:
+	watch_signals(gdset)
+	
+	gdset.remove()
+	
+	assert_signal_not_emitted(gdset, "removed", "Removed was emitted")
+
+func test_removed_is_emitted_on_value_removed() -> void:
+	gdset.add(1)
+	
+	watch_signals(gdset)
+	
+	gdset.remove_element(1)
+	
+	assert_signal_emitted(gdset, "removed", "Removed wasn't emitted")
+
+#endregion
+
 #region Method iterator
 
 func test_iterator_returns_valid_iterator() -> void:
