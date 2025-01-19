@@ -103,15 +103,15 @@ func is_superset(other: GDSet) -> bool:
 
 func is_disjoint(other: GDSet) -> bool:
 	var found: bool = false
-
+	
 	var i: GDIterator = iterator()
-
+	
 	while i.has_next():
-		found = found and other.has(i.next())
-
+		found = found or other.has(i.next())
+		
 		if found:
 			return false
-
+	
 	return true
 
 func union(other: GDSet) -> GDSet:
