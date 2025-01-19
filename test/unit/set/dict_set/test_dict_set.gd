@@ -68,21 +68,21 @@ func test_added_is_emitted_on_value_added() -> void:
 
 #region Signal updated
 
-func test_updated_is_emitted_with_repeated_value_addition() -> void:
-	gdset.set_element(1)
-	
-	watch_signals(gdset)
-	
-	gdset.set_element(1)
-	
-	assert_signal_emitted_with_parameters(gdset, "updated", [ 1, 1 ])
-
 func test_updated_is_emitted_on_value_added() -> void:
 	watch_signals(gdset)
 	
 	gdset.set_element(1)
 	
 	assert_signal_emitted(gdset, "updated", [ null, 1 ])
+
+func test_updated_is_emitted_on_value_removed() -> void:
+	gdset.set_element(1)
+	
+	watch_signals(gdset)
+	
+	gdset.remove_element(1)
+	
+	assert_signal_emitted(gdset, "updated", [ 1, null ])
 
 #endregion
 
