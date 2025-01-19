@@ -706,3 +706,75 @@ func test_symetric_difference_is_commutative() -> void:
 	)
 
 #endregion
+
+#region Method union_all
+
+func test_union_all_adds_all_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 4, 5 ])
+	var gdset3: GDSet = GDDictSet.from_array([ 6, 7 ])
+	
+	var union: GDSet = gdset.union_all(GDLinkedQueue.from_array(
+		[ gdset, gdset2, gdset3 ]
+	))
+	
+	assert_true(
+		union.equals(GDDictSet.from_array([ 1, 2, 3, 4, 5, 6, 7 ])),
+		"Union didn't include all elements"
+	)
+
+#endregion
+
+#region Method intersection_all
+
+func test_intersection_all_gets_common_elements_of_all_sets() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 4, 5 ])
+	var gdset3: GDSet = GDDictSet.from_array([ 6, 7, 2 ])
+	
+	var intersection: GDSet = gdset.intersection_all(GDLinkedQueue.from_array(
+		[ gdset, gdset2, gdset3 ]
+	))
+	
+	assert_true(
+		intersection.equals(GDDictSet.from_array([ 2 ])),
+		"Intersection didn't include only common elements"
+	)
+
+#endregion
+
+#region Method difference_all
+
+func test_difference_all_gets_elements_only_from_the_first_set() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 4, 5 ])
+	var gdset3: GDSet = GDDictSet.from_array([ 6, 3, 7 ])
+	
+	var difference: GDSet = gdset.difference_all(GDLinkedQueue.from_array(
+		[ gdset2, gdset3 ]
+	))
+	
+	assert_true(
+		difference.equals(GDDictSet.from_array([ 1 ])),
+		"Difference didn't include only first set's elements"
+	)
+
+#endregion
+
+#region Method difference_all
+
+func test_symetric_difference_all_excludes_intersection() -> void:
+	gdset = GDDictSet.from_array([ 1, 2, 3 ])
+	var gdset2: GDSet = GDDictSet.from_array([ 2, 4, 5 ])
+	var gdset3: GDSet = GDDictSet.from_array([ 6, 3, 7 ])
+	
+	var symetric_difference: GDSet = gdset.symetric_difference_all(GDLinkedQueue.from_array(
+		[ gdset2, gdset3 ]
+	))
+	
+	assert_true(
+		symetric_difference.equals(GDDictSet.from_array([ 1, 4, 5, 6, 7 ])),
+		"Symetric_difference didn't exclude intersection"
+	)
+
+#endregion
